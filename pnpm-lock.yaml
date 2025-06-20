@@ -116,14 +116,14 @@ importers:
         specifier: 1.43.4
         version: 1.43.4
       serverless:
-        specifier: 3.39.0
-        version: 3.39.0
+        specifier: ~3.40.0
+        version: 3.40.0
       serverless-baseline-invalidate-cloudfront:
         specifier: 0.1.2
         version: 0.1.2
       serverless-s3-sync:
         specifier: 3.1.0
-        version: 3.1.0(serverless@3.39.0)
+        version: 3.1.0(serverless@3.40.0)
       stylelint:
         specifier: 16.13.2
         version: 16.13.2(typescript@5.4.2)
@@ -195,8 +195,8 @@ importers:
         specifier: 2.4.1
         version: 2.4.1
       serverless:
-        specifier: 3.39.0
-        version: 3.39.0
+        specifier: ~3.40.0
+        version: 3.40.0
       serverless-dynamodb:
         specifier: 0.2.50
         version: 0.2.50
@@ -205,7 +205,7 @@ importers:
         version: 1.52.1(esbuild@0.20.1)
       serverless-offline:
         specifier: 13.8.2
-        version: 13.8.2(serverless@3.39.0)
+        version: 13.8.2(serverless@3.40.0)
       stylelint:
         specifier: 16.13.2
         version: 16.13.2(typescript@5.4.2)
@@ -280,14 +280,14 @@ importers:
         specifier: 1.43.4
         version: 1.43.4
       serverless:
-        specifier: 3.39.0
-        version: 3.39.0
+        specifier: ~3.40.0
+        version: 3.40.0
       serverless-baseline-invalidate-cloudfront:
         specifier: 0.1.2
         version: 0.1.2
       serverless-s3-sync:
         specifier: 3.1.0
-        version: 3.1.0(serverless@3.39.0)
+        version: 3.1.0(serverless@3.40.0)
       stylelint:
         specifier: 16.13.2
         version: 16.13.2(typescript@5.4.2)
@@ -4890,8 +4890,8 @@ packages:
     peerDependencies:
       serverless: ^3.0.0
 
-  serverless@3.39.0:
-    resolution: {integrity: sha512-FHI3fhe4TRS8+ez/KA7HmO3lt3fAynO+N1pCCzYRThMWG0J8RWCI0BI+K0mw9+sEV+QpBCpZRZbuGyUaTsaQew==}
+  serverless@3.40.0:
+    resolution: {integrity: sha512-6vUSIUqBkhZeIpFz0howqKlT1BNjYxOrucvvSICKCEsxVS9MbTJokGkykDrpr/k4Io3WI8tcvrf25+U5Ynf3lw==}
     engines: {node: '>=12.0'}
     hasBin: true
 
@@ -9682,7 +9682,7 @@ snapshots:
   buffer@4.9.2:
     dependencies:
       base64-js: 1.5.1
-      ieee754: 1.1.13
+      ieee754: 1.2.1
       isarray: 1.0.0
 
   buffer@5.7.1:
@@ -12193,7 +12193,7 @@ snapshots:
 
   serverless-http@3.0.1: {}
 
-  serverless-offline@13.8.2(serverless@3.39.0):
+  serverless-offline@13.8.2(serverless@3.40.0):
     dependencies:
       '@aws-sdk/client-lambda': 3.833.0
       '@hapi/boom': 10.0.1
@@ -12215,7 +12215,7 @@ snapshots:
       luxon: 3.6.1
       node-schedule: 2.1.1
       p-memoize: 7.1.1
-      serverless: 3.39.0
+      serverless: 3.40.0
       velocityjs: 2.1.5
       ws: 8.18.2
     transitivePeerDependencies:
@@ -12224,15 +12224,15 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  serverless-s3-sync@3.1.0(serverless@3.39.0):
+  serverless-s3-sync@3.1.0(serverless@3.40.0):
     dependencies:
       '@auth0/s3': 1.0.0
       bluebird: 3.7.2
       mime: 2.6.0
       minimatch: 3.1.2
-      serverless: 3.39.0
+      serverless: 3.40.0
 
-  serverless@3.39.0:
+  serverless@3.40.0:
     dependencies:
       '@aws-sdk/client-api-gateway': 3.830.0
       '@aws-sdk/client-cognito-identity-provider': 3.675.0
