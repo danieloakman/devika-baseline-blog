@@ -5,6 +5,7 @@ $sm: 576px;
 $animationSpeed: 150ms;
 $breakSize: $md;
 
+
 @mixin genericButton {
   @include smallFont(normal, 600);
 
@@ -22,6 +23,11 @@ $breakSize: $md;
     color: #3a3838;
     background: #fff;
   }
+}
+
+// Apply montserrat to all text for now
+body {
+  font-family: 'Montserrat', sans-serif;
 }
 
 @mixin tinyFont(
