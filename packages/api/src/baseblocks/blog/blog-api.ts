@@ -37,7 +37,6 @@ app.get('/blog/:id', [
 ]);
 
 app.get('/blog', [
-  Conditionals.or(isAdmin, isBlogPublished),
   async (req: RequestContext, res: Response) => {
     const userSub = req.currentUserSub;
     const isAdmin = await isAdminSub(userSub);
@@ -64,9 +63,7 @@ app.patch('/blog/:id', [
   (req: RequestContext, res: Response) => {
     const id = req.params.id;
     if (!Object.keys(req.body).length)
-      res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ error: 'No body provided' });
+      res.status(StatusCodes.BAD_REQUEST).json({ error: 'No body provided' });
     else
       blogService
         .update({ id, ...req.body })

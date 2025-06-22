@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './DashboardContent.module.scss';
 import { getRequestHandler } from '@baseline/client-api/request-handler';
 import { useGetBlogs } from '@baseline/client-api/blogs';
+import { Spinner } from 'reactstrap';
 
 const DashboardContent = (): JSX.Element => {
   const {
@@ -16,9 +17,11 @@ const DashboardContent = (): JSX.Element => {
       <div className={styles.grid}>
         <div className={styles.preview}>
           {isLoading ? (
-            <div>Loading...</div>
+            <Spinner color="primary" />
           ) : isSuccess ? (
-            blogs.map((blog) => <div key={blog.id}>{blog.title}</div>)
+            blogs.map((blog) => (
+              <pre key={blog.id}>{JSON.stringify(blog, null, 2)}</pre>
+            ))
           ) : (
             <pre>Error: {JSON.stringify(error, null, 2)}</pre>
           )}
