@@ -101,10 +101,24 @@ provider:
             - cognito-idp:ListUsers
           Resource:
             - !Sub ${CognitoUserPool.Arn}
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:BatchGetItem
+          Resource:
+            - !Sub ${blogTable.Arn}
+            - !Sub ${blogTable.Arn}/index/*
 
 resources:
   - ${file(./src/baseblocks/cognito/cognito-resources.yml)}
   - ${file(./src/baseblocks/admin/admin-dynamodb.yml)}
+  - ${file(./src/baseblocks/blog/blog-resources.yml)}
 
 functions:
   - ${file(./src/baseblocks/admin/admin-functions.yml)}
+  - ${file(./src/baseblocks/blog/blog-functions.yml)}

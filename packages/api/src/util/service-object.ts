@@ -7,6 +7,7 @@ import {
   putItem,
   updateItem,
   DynamoDbDocumentClient,
+  queryItems
 } from '@baselinejs/dynamodb';
 import { randomUUID } from 'crypto';
 
@@ -174,5 +175,15 @@ export class ServiceObject<T extends Record<string, any>> {
       return record[this.ownerField] === userSub;
     }
     return false;
+  }
+
+  query(query: string, indexName: string) {
+    return queryItems<T>({
+      dynamoDb: this.dynamoDb,
+      table: this.table,
+      keyName: this.primaryKey,
+      keyValue: query,
+      indexName,
+    });
   }
 }

@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
-pkgs.mkShell {
+pkgs.mkShell ( with pkgs; {
   name = "devika-baseline-blog-shell";
-  packages = with pkgs; [
+  packages = [
     nodejs_22
     pnpm_9
     jre8
@@ -12,7 +12,7 @@ pkgs.mkShell {
     '')
   ];
   shellHook = ''
-    export SHELL=${pkgs.zsh}/bin/zsh
+    export SHELL=${zsh}/bin/zsh
     exec $SHELL
   '';
-}
+})
