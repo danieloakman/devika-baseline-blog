@@ -312,6 +312,9 @@ importers:
       '@baseline/types':
         specifier: workspace:1.0.0
         version: link:../types
+      '@tanstack/react-query':
+        specifier: ^5.81.1
+        version: 5.81.1(react@18.2.0)
       axios:
         specifier: 1.7.7
         version: 1.7.7
@@ -2167,6 +2170,14 @@ packages:
   '@szmarczak/http-timer@4.0.6':
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
     engines: {node: '>=10'}
+
+  '@tanstack/query-core@5.81.1':
+    resolution: {integrity: sha512-MAaygDGHHQlfVPYNT+1ZbnY5KsPhFbffDgdQ0YPVhJQyvLby3btnF0oVk9ZEpKEGfl3hEK7YDnNNFT//iX+s0w==}
+
+  '@tanstack/react-query@5.81.1':
+    resolution: {integrity: sha512-N78EEOq/Y5tqXvbGSE+LaRXU8oqlRU4w/D2Di8VwZrNL/tdvKhD+h5HCJr77MC0nUcil0nnzQpi+nu77t3/Xtg==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@tokenizer/token@0.3.0':
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
@@ -9099,6 +9110,13 @@ snapshots:
   '@szmarczak/http-timer@4.0.6':
     dependencies:
       defer-to-connect: 2.0.1
+
+  '@tanstack/query-core@5.81.1': {}
+
+  '@tanstack/react-query@5.81.1(react@18.2.0)':
+    dependencies:
+      '@tanstack/query-core': 5.81.1
+      react: 18.2.0
 
   '@tokenizer/token@0.3.0': {}
 
