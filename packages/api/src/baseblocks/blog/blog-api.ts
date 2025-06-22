@@ -13,7 +13,7 @@ import createAuthenticatedHandler from '../../util/create-authenticated-handler'
 import { blogService } from './blog.service';
 import { isBlogPublished } from '../../middleware/is-blog-published';
 // import { adminService } from './admin.service';
-import HttpStatusCodes from 'http-status-codes';
+import StatusCodes from 'http-status-codes';
 import * as Conditionals from '../../middleware/conditionals';
 import { isAdminSub } from '../admin/admin.service';
 
@@ -41,14 +41,23 @@ app.get('blog', [
   async (req: RequestContext, res: Response) => {
     const userSub = req.currentUserSub;
     const isAdmin = await isAdminSub(userSub);
-    if (isAdmin) blogService.batchGet()
-      // blogService.getAll().then(res.json).catch(error => {
-      //   const message = getErrorMessage(error);
-      //   console.error(`Failed to get blogs: ${message}`);
-      //   res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-      // });
-  }
-])
+    if (isAdmin)
+      blogService
+        .getAll()
+        .then(res.json)
+        .catch((error) => {
+          const message = getErrorMessage(error);
+          console.error(`Failed to get blogs: ${message}`);
+          res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            error: 'Failed to get blogs',
+          });
+        });
+    else
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        error: 'NOT IMPLEMENTED',
+      });
+  },
+]);
 
 app.patch('/blog/:id', [
   isAdmin,
@@ -56,7 +65,7 @@ app.patch('/blog/:id', [
     const id = req.params.id;
     if (!Object.keys(req.body).length)
       res
-        .status(HttpStatusCodes.BAD_REQUEST)
+        .status(StatusCodes.BAD_REQUEST)
         .json({ error: 'No body provided' });
     else
       blogService
@@ -65,7 +74,7 @@ app.patch('/blog/:id', [
         .catch((error) => {
           const message = getErrorMessage(error);
           console.error(`Failed to update blog: ${message}`);
-          res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+          res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             error: 'Failed to update blog',
           });
         });
