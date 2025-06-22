@@ -36,8 +36,8 @@ app.get('/blog/:id', [
       }),
 ]);
 
-app.get('blog', [
-  isAdmin,
+app.get('/blog', [
+  Conditionals.or(isAdmin, isBlogPublished),
   async (req: RequestContext, res: Response) => {
     const userSub = req.currentUserSub;
     const isAdmin = await isAdminSub(userSub);
