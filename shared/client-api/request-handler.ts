@@ -24,6 +24,10 @@ export const createRequestHandler = (
   return requestHandler;
 };
 
+const trailingLeadingSlash = /^\/|\/$/g;
+export const resolveUrl = (...parts: string[]): string =>
+  parts.map((part) => part.replace(trailingLeadingSlash, '')).join('/');
+
 const baseUrl = process.env.REACT_APP_API_URL || '';
 
 export interface RequestHandlerParams {
@@ -65,7 +69,7 @@ export class RequestHandler {
     try {
       let config: AxiosRequestConfig = {
         method: params.method,
-        url: `${baseUrl}${params.url}`,
+        url: resolveUrl(baseUrl, params.url),
         data: params.data,
         headers: params.headers,
       };
