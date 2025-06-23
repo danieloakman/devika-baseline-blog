@@ -18,11 +18,13 @@ const DashboardContent = (): JSX.Element => {
       <h1>Dashboard</h1>
       <div className={styles.grid}>
         <BlogCreateForm />
-        {/* <Blogs /> */}
+        <Blogs />
       </div>
     </div>
   );
 };
+
+export default DashboardContent;
 
 const BlogCreateForm = () => {
   const createBlog = useCreateBlog(getRequestHandler());
@@ -94,5 +96,3 @@ const Blogs = () => {
     <pre>Error: {JSON.stringify(error, null, 2)}</pre>
   );
 };
-
-export default DashboardContent;

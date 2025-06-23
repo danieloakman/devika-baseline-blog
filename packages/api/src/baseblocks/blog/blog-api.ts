@@ -27,7 +27,7 @@ app.get('/blog/:id', [
   async (req: RequestContext, res: Response) =>
     await blogService
       .get(req.params.id)
-      .then(res.json)
+      .then((result) => res.json(result))
       .catch((error) => {
         const message = getErrorMessage(error);
         console.error(`Failed to get blog: ${message}`);
@@ -44,8 +44,9 @@ app.get('/blog', [
     if (isAdmin)
       await blogService
         .getAll()
-        .then(res.json)
+        .then((result) => res.json(result))
         .catch((error) => {
+          console.log('full error', JSON.stringify(error.stack, null, 2));
           const message = getErrorMessage(error);
           console.error(`Failed to get blogs: ${message}`);
           res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -68,7 +69,7 @@ app.patch('/blog/:id', [
     else
       await blogService
         .update({ id, ...req.body })
-        .then(res.json)
+        .then((result) => res.json(result))
         .catch((error) => {
           const message = getErrorMessage(error);
           console.error(`Failed to update blog: ${message}`);
