@@ -15,13 +15,18 @@
     "isolatedModules": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@shared-components": ["../../shared/components/src"],
+      "@shared-components/*": ["../../shared/components/src/*"]
+    }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     "../../shared/types",
     "../../shared/client-api",
+    "../../shared/components",
     "vite.config.ts"
   ]
 }
