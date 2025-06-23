@@ -16,6 +16,7 @@ import { isBlogPublished } from '../../middleware/is-blog-published';
 import StatusCodes from 'http-status-codes';
 import * as Conditionals from '../../middleware/conditionals';
 import { isAdminSub } from '../admin/admin.service';
+import { randomUUID } from 'crypto';
 
 const app = createApp();
 // app.use(isAdmin); // All private endpoints require the user to be an admin
@@ -23,8 +24,8 @@ export const handler = createAuthenticatedHandler(app);
 
 app.get('/blog/:id', [
   Conditionals.or(isAdmin, isBlogPublished),
-  (req: RequestContext, res: Response) =>
-    blogService
+  async (req: RequestContext, res: Response) =>
+    await blogService
       .get(req.params.id)
       .then(res.json)
       .catch((error) => {
@@ -41,7 +42,7 @@ app.get('/blog', [
     const userSub = req.currentUserSub;
     const isAdmin = await isAdminSub(userSub);
     if (isAdmin)
-      blogService
+      await blogService
         .getAll()
         .then(res.json)
         .catch((error) => {
@@ -60,12 +61,12 @@ app.get('/blog', [
 
 app.patch('/blog/:id', [
   isAdmin,
-  (req: RequestContext, res: Response) => {
+  async (req: RequestContext, res: Response) => {
     const id = req.params.id;
     if (!Object.keys(req.body).length)
       res.status(StatusCodes.BAD_REQUEST).json({ error: 'No body provided' });
     else
-      blogService
+      await blogService
         .update({ id, ...req.body })
         .then(res.json)
         .catch((error) => {
@@ -81,8 +82,48 @@ app.patch('/blog/:id', [
 app.post('/blog', [
   isAdmin,
   async (req: RequestContext, res: Response) => {
-    const blog = await blogService.create(req.body);
-    res.json(blog);
+    const userSub = req.currentUserSub;
+    const { title, content } = req.body;
+    if (!title || !content) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        error: 'Title and content are required',
+      });
+      return;
+    }
+
+    const Item = {
+      ...req.body,
+      id: randomUUID(),
+      publishedAt: 'not-published',
+      authorId: userSub,
+    };
+    console.log('Creating blog', Item);
+
+    await blogService.dynamoDb
+      .put({
+        TableName: blogService.table,
+        Item,
+      })
+      .then((result) => res.json(result.Attributes))
+      .catch((err) => {
+        console.error(`Failed to create blog: ${getErrorMessage(err)}`);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+          error: 'Failed to create blog',
+        });
+      });
+    // await blogService
+    //   .create({
+    //     ...req.body,
+    //     publishedAt: 'not-published',
+    //     authorId: userSub,
+    //   })
+    //   .then(res.json)
+    //   .catch((err) => {
+    //     console.error(`Failed to create blog: ${getErrorMessage(err)}`);
+    //     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    //       error: 'Failed to create blog',
+    //     });
+    //   });
   },
 ]);
 

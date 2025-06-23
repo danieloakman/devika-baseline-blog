@@ -1,13 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { RequestHandler } from './request-handler';
 import { Blog } from '@baseline/types/blog';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
-const toData = <T>(response: AxiosResponse<T>): T => {
-  if ('data' in response) {
-    return response.data;
-  }
-  throw response;
+const handleAxiosResult = <T>(arg: AxiosResponse<T> | AxiosError): T => {
+  if ('data' in arg) return arg.data;
+  throw arg;
 };
 
 export const useGetBlogs = (requestHandler: RequestHandler) => {
@@ -20,7 +18,7 @@ export const useGetBlogs = (requestHandler: RequestHandler) => {
           method: 'GET',
           hasAuthentication: true,
         })
-        .then(toData),
+        .then(handleAxiosResult),
   });
 };
 
@@ -28,25 +26,30 @@ export const useGetBlog = (requestHandler: RequestHandler, blogId: string) => {
   return useQuery({
     queryKey: ['blog', blogId],
     queryFn: () =>
-      requestHandler.request<Blog>({
-        url: `/blog/${blogId}`,
-        method: 'GET',
-        hasAuthentication: true,
-      }).then(toData),
+      requestHandler
+        .request<Blog>({
+          url: `/blog/${blogId}`,
+          method: 'GET',
+          hasAuthentication: true,
+        })
+        .then(handleAxiosResult),
   });
 };
 
 export const useCreateBlog = (requestHandler: RequestHandler) => {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['createBlog'],
-    mutationFn: (blog: Omit<Blog, 'id'>) =>
-      requestHandler.request<Blog>({
-        url: '/blog',
-        method: 'POST',
-        data: blog,
-        hasAuthentication: true,
-      }),
+    mutationFn: (blog: Omit<Blog, 'id' | 'authorId' | 'publishedAt'>) =>
+      requestHandler
+        .request<Blog>({
+          url: '/blog',
+          method: 'POST',
+          data: blog,
+          hasAuthentication: true,
+        })
+        .then(handleAxiosResult),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['blogs'] });
     },
