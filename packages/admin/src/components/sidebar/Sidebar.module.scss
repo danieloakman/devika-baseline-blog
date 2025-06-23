@@ -56,16 +56,13 @@ $animationSpeed: 250ms;
   }
 
   .links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     margin-top: 48px;
 
-    img {
-      height: 40px;
-      object-fit: contain;
-    }
-
     .spacer {
-      height: 20px;
-      margin-bottom: 16px;
+      height: 8px;
     }
 
     .link,

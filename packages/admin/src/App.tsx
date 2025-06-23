@@ -122,7 +122,6 @@ const router = createBrowserRouter([
       { path: '/', Component: Home, index: true },
       { path: '/not-admin', Component: NotAdmin },
       { path: '/login', Component: Login, loader: loginLoader },
-      { path: '/blogs', Component: Blogs },
     ],
   },
   {
@@ -138,6 +137,7 @@ const router = createBrowserRouter([
         loader: adminListLoader,
       },
       { path: '/settings', Component: User, loader: userLoader },
+      { path: '/blogs', Component: Blogs },
     ],
   },
 ]);

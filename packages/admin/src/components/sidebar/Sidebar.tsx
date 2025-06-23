@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Sidebar.module.scss';
+import { Book, Home, Settings, Users } from 'lucide-react'
 
 const Sidebar = (): JSX.Element => {
   const location = useLocation();
@@ -29,8 +30,17 @@ const Sidebar = (): JSX.Element => {
             location.pathname === '/dashboard' ? styles.active : ''
           }`}
         >
-          <img src="/icons/home.svg" alt="Home" />
+          <Home color="black" />
           <span>Dashboard</span>
+        </Link>
+        <Link
+          to="/blogs"
+          className={`${styles.link} ${
+            location.pathname === '/blogs' ? styles.active : ''
+          }`}
+        >
+          <Book color="black" />
+          <span>Blogs</span>
         </Link>
 
         <div className={styles.spacer} />
@@ -43,7 +53,7 @@ const Sidebar = (): JSX.Element => {
             location.pathname === '/admins' ? styles.active : ''
           }`}
         >
-          <img src="/icons/users.svg" alt="Admins" />
+          <Users color="black" />
           <span>Admins</span>
         </Link>
 
@@ -53,7 +63,7 @@ const Sidebar = (): JSX.Element => {
             location.pathname === '/settings' ? styles.active : ''
           }`}
         >
-          <img src="/icons/gear.svg" alt="Settings" />
+          <Settings color="black" />
           <span>Account Settings</span>
         </Link>
       </div>
