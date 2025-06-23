@@ -1,6 +1,6 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import './styles/fonts.scss';
+import '@baseline/components/styles/fonts';
 import './index.scss';
 import App from './App';
 

@@ -5,7 +5,6 @@ $sm: 576px;
 $animationSpeed: 150ms;
 $breakSize: $md;
 
-
 @mixin genericButton {
   @include smallFont(normal, 600);
 
@@ -22,24 +21,6 @@ $breakSize: $md;
   &:hover {
     color: #3a3838;
     background: #fff;
-  }
-}
-
-// Apply montserrat to all text for now
-body {
-  font-family: 'Montserrat', sans-serif;
-}
-
-@mixin tinyFont(
-  $style: normal,
-  $weight: normal,
-  $fontFace: 'Montserrat',
-  $fallback: sans-serif
-) {
-  font: $style normal $weight 12px/20px $fontFace, $fallback;
-
-  @media screen and (max-width: $breakSize) {
-    font: $style normal $weight 8px/16px $fontFace, $fallback;
   }
 }
 
@@ -93,4 +74,8 @@ body {
   @media screen and (max-width: $breakSize) {
     font: $style normal $weight 40px/49px $fontFace, $fallback;
   }
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
 }

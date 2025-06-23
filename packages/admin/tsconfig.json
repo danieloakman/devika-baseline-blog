@@ -10,16 +10,12 @@
     "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
-    "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@shared-components": ["../../shared/components/src"],
-      "@shared-components/*": ["../../shared/components/src/*"]
-    }
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "**/*.ts",

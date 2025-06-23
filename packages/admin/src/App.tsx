@@ -24,7 +24,7 @@ import NotAdmin from './baseblocks/not-admin/pages/NotAdmin';
 import Layout from './components/layout/Layout';
 import Loader from './components/page-content/loader/Loader';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Blogs from './baseblocks/blog/pages/Blogs';
 
 Amplify.configure({

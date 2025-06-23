@@ -22,6 +22,7 @@
   "dependencies": {
     "@baseline/client-api": "workspace:1.0.0",
     "@baseline/types": "workspace:1.0.0",
+    "@baseline/components": "workspace:1.0.0",
     "@vitejs/plugin-react": "4.3.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",

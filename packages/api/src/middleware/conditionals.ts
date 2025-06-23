@@ -1,6 +1,5 @@
 import { NextFunction, Response } from 'express';
 import { RequestContext } from '../util/request-context.type';
-import { blogService } from '../baseblocks/blog/blog.service';
 import { StatusCodes } from 'http-status-codes';
 import { getErrorMessage } from '../util/error-message';
 
