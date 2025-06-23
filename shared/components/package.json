@@ -1,0 +1,39 @@
+{
+  "name": "@baseline/components",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "lint": "npx eslint '*.ts'",
+    "pretty": "npx prettier --write '*.{ts,tsx,js,json,css,scss,md,yml,yaml,html}'"
+  },
+  "dependencies": {
+    "@baseline/types": "workspace:1.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-helmet": "6.1.0",
+    "react-hook-form": "^7.58.1",
+    "react-router-dom": "6.22.3",
+    "react-select": "5.8.0",
+    "reactstrap": "9.2.2",
+    "typescript": "5.4.2"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.67",
+    "@types/react-dom": "18.2.22",
+    "eslint-plugin-react": "7.37.2",
+    "eslint-plugin-react-hooks": "5.1.0",
+    "postcss": "8.5.1",
+    "postcss-scss": "4.0.9",
+    "prettier": "2.4.1",
+    "sass": "1.43.4",
+    "serverless": "~3.40.0",
+    "serverless-baseline-invalidate-cloudfront": "0.1.2",
+    "serverless-s3-sync": "3.1.0",
+    "stylelint": "16.13.2",
+    "stylelint-config-css-modules": "4.4.0",
+    "stylelint-config-sass-guidelines": "11.1.0",
+    "stylelint-config-standard": "36.0.0",
+    "stylelint-config-standard-scss": "13.0.0",
+    "stylelint-order": "6.0.4"
+  }
+}
