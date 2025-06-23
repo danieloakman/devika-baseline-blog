@@ -50,6 +50,9 @@
       padding: 32px;
       background: #fff;
       border: 1px solid #bababa;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
   }
 }
