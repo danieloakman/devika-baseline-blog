@@ -1,12 +1,13 @@
 import React from 'react';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import {
   createRequestHandler,
   getRequestHandler,
 } from '@baseline/client-api/request-handler';
 import Blog from './pages/Blog';
+import { queryClient } from '@baseline/client-api/query-client';
 
 async function protectedLoader() {
   console.debug('protected loader');
@@ -29,19 +30,9 @@ const router = createBrowserRouter([
   },
 ]);
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      staleTime: 0,
-    },
-  },
-});
-
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <RouterProvider router={router} />
-    {/* <ReactQueryDevtools initialIsOpen={false} /> */}
   </QueryClientProvider>
 );
 

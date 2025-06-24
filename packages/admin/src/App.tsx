@@ -23,11 +23,12 @@ import Login from './baseblocks/login/pages/Login';
 import NotAdmin from './baseblocks/not-admin/pages/NotAdmin';
 import Layout from './components/layout/Layout';
 import Loader from './components/page-content/loader/Loader';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Blogs from '@/baseblocks/blog/pages/Blogs';
 import BlogCreate from '@/baseblocks/blog/pages/BlogCreate';
 import BlogView from '@/baseblocks/blog/pages/BlogView';
+import { queryClient } from '@baseline/client-api/query-client';
 
 Amplify.configure({
   Auth: {
@@ -36,15 +37,6 @@ Amplify.configure({
       identityPoolId: `${process.env.REACT_APP_COGNITO_IDENTITY_POOL_ID}`,
       userPoolId: `${process.env.REACT_APP_COGNITO_USER_POOL_ID}`,
       userPoolClientId: `${process.env.REACT_APP_COGNITO_USER_POOL_WEB_CLIENT_ID}`,
-    },
-  },
-});
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      staleTime: 0,
     },
   },
 });
