@@ -1,8 +1,9 @@
 import React from 'react';
 import { useGetBlogs } from '@baseline/client-api/blogs';
 import styles from './BlogList.module.scss';
-import { Spinner } from 'reactstrap';
+import { Spinner, Card, CardTitle, CardBody, CardText } from 'reactstrap';
 import { ErrorMessage } from '@baseline/components';
+import { Blog } from '@baseline/types/blog';
 
 export default function BlogList() {
   const { data: blogs = [], isLoading, error } = useGetBlogs();
@@ -14,8 +15,19 @@ export default function BlogList() {
       ) : error ? (
         <ErrorMessage>{error.message}</ErrorMessage>
       ) : (
-        blogs.map((blog) => <div key={blog.id}>{blog.title}</div>)
+        blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
       )}
     </div>
+  );
+}
+
+function BlogCard({ blog }: { blog: Blog }) {
+  return (
+    <Card className={styles.blogCard}>
+      <CardBody>
+        <CardTitle>{blog.title}</CardTitle>
+        <CardText>{blog.content}</CardText>
+      </CardBody>
+    </Card>
   );
 }

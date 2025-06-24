@@ -1,5 +1,31 @@
 @use '@baseline/components/styles/global' as g;
 
 .container {
-  @include g.v-stack;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+  gap: 1.5rem !important;
+  padding: 1rem !important;
+  width: 100% !important;
+  max-width: none !important;
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    padding: 0.5rem !important;
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
+    gap: 2rem !important;
+  }
+}
+
+.blogCard {
+  width: 100% !important;
+  height: fit-content !important;
+  display: flex !important;
+  flex-direction: column !important;
+  margin: 0 !important;
+  float: none !important;
 }
