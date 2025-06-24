@@ -72,6 +72,23 @@ app.patch('/blog/:id', [
   },
 ]);
 
+app.delete('/blog/:id', [
+  isAdmin,
+  async (req: RequestContext, res: Response) => {
+    const id = req.params.id;
+    await blogService
+      .delete(id)
+      .then((result) => res.json(result))
+      .catch((error) => {
+        const message = getErrorMessage(error);
+        console.error(`Failed to delete blog: ${message}`);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+          error: 'Failed to delete blog',
+        });
+      });
+  },
+]);
+
 app.post('/blog', [
   isAdmin,
   async (req: RequestContext, res: Response) => {

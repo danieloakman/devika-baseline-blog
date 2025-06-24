@@ -58,3 +58,39 @@ export const useCreateBlog = () => {
     },
   });
 };
+
+export const useDeleteBlog = () => {
+  const requestHandler = getRequestHandler();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['deleteBlog'],
+    mutationFn: (blogId: string) =>
+      requestHandler.request({
+        url: `/blog/${blogId}`,
+        method: 'DELETE',
+        hasAuthentication: true,
+      }).then(handleAxiosResult),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+    },
+  });
+};
+
+export const useUpdateBlog = () => {
+  const requestHandler = getRequestHandler();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['updateBlog'],
+    mutationFn: (blog: Omit<Partial<Blog>, 'authorId'> & { id: string }) => requestHandler.request({
+      url: `/blog/${blog.id}`,
+      method: 'PATCH',
+      data: blog,
+      hasAuthentication: true,
+    }).then(handleAxiosResult),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+    },
+  })
+}
