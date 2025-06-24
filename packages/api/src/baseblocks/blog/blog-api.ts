@@ -24,8 +24,7 @@ const blogMapper = ({ publishedAt, ...blog }: Blog): Blog => ({
 
 app.get('/blog/:id', [
   async (req: RequestContext, res: Response) => {
-    console.log('req.currentUserSub', req.currentUserSub);
-    const isAdmin = await isAdminSub(req.currentUserSub);
+    const isAdmin = await isAdminSub(req.currentUserSub).catch(() => false);
     await blogService
       .get(req.params.id)
       .then((result) => {
@@ -49,7 +48,7 @@ app.get('/blog/:id', [
 app.get('/blog', [
   async (req: RequestContext, res: Response) => {
     const userSub = req.currentUserSub;
-    const isAdmin = await isAdminSub(userSub);
+    const isAdmin = await isAdminSub(userSub).catch(() => false);
     await blogService
       .getAll()
       .then((result) => {
