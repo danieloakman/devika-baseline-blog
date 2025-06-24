@@ -2,7 +2,20 @@ import React from 'react';
 import { useCreateBlog } from '@baseline/client-api/blogs';
 import { Controller, useForm } from 'react-hook-form';
 import styles from './BlogCreateForm.module.scss';
-import { Button, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
+import {
+  Button,
+  Input,
+  Toast,
+  ToastBody,
+  ToastHeader,
+  Label,
+  FormFeedback,
+  FormGroup,
+  UncontrolledTooltip,
+} from 'reactstrap';
+import MDEditor from '@uiw/react-md-editor';
+import { Info } from 'lucide-react';
+import { ErrorMessage } from '@baseline/components';
 
 function BlogCreateForm() {
   const createBlog = useCreateBlog();
@@ -21,23 +34,44 @@ function BlogCreateForm() {
       <Controller
         name="title"
         control={control}
-        rules={{ required: { value: true, message: 'Title is required' } }}
+        rules={{
+          required: { value: true, message: 'Title is required' },
+          maxLength: {
+            value: 100,
+            message: 'Title must be less than 100 characters',
+          },
+        }}
         render={({ field, fieldState: { error, invalid } }) => (
-          <label>
-            <p>Title</p>
-            <Input type="text" placeholder="Title" {...field} invalid={invalid} />
-            
-          </label>
+          <FormGroup floating>
+            <Input
+              id="title"
+              type="text"
+              placeholder="Title"
+              invalid={invalid}
+              {...field}
+            />
+            <Label for="title">Title</Label>
+            {error && <FormFeedback>{error.message}</FormFeedback>}
+          </FormGroup>
         )}
       />
+
       <Controller
         name="content"
         control={control}
-        render={({ field }) => (
-          <label>
-            <p>Content</p>
-            <Input type="textarea" placeholder="Content" {...field} />
-          </label>
+        render={({ field, fieldState: { error, invalid } }) => (
+          <FormGroup>
+            <Label id="content-label" for="content" className={styles.label}>
+              Content
+              <Info size={16} />
+            </Label>
+            <UncontrolledTooltip target="content-label" placement="bottom">
+              Use markdown to format the content of your blog post.
+            </UncontrolledTooltip>
+
+            <MDEditor data-color-mode="light" {...field} />
+            {error && <FormFeedback>{error.message}</FormFeedback>}
+          </FormGroup>
         )}
       />
 
@@ -45,12 +79,7 @@ function BlogCreateForm() {
         Create Blog
       </Button>
       {createBlog.isError && (
-        <Toast>
-          <ToastHeader>Error</ToastHeader>
-          <ToastBody>
-            <pre>{JSON.stringify(createBlog.error, null, 2)}</pre>
-          </ToastBody>
-        </Toast>
+        <ErrorMessage>{createBlog.error}</ErrorMessage>
       )}
     </form>
   );

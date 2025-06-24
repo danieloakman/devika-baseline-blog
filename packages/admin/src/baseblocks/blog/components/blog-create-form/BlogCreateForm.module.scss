@@ -3,9 +3,17 @@
 .container {
   @include g.v-stack;
   gap: 16px;
+  // align-items: flex-start;
+  // width: 100%;
+}
 
-  label {
-    @include g.v-stack;
-    gap: 8px;
-  }
+.label {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  width: 150px;
+}
+
+.textarea {
+  height: 200px;
 }

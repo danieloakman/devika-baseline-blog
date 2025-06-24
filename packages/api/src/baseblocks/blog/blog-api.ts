@@ -90,7 +90,7 @@ app.post('/blog', [
         publishedAt: 'not-published',
         authorId: userSub,
       })
-      .then(res.json)
+      .then((result) => res.json(result))
       .catch((err) => {
         console.error(`Failed to create blog: ${getErrorMessage(err)}`);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
