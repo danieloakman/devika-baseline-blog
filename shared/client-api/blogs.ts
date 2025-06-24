@@ -18,7 +18,6 @@ export const useGetBlogs = () => {
         .request<Blog[]>({
           url: '/blog',
           method: 'GET',
-          hasAuthentication: true,
         })
         .then(handleAxiosResult),
   });
@@ -33,7 +32,6 @@ export const useGetBlog = (blogId: string) => {
         .request<Blog>({
           url: `/blog/${blogId}`,
           method: 'GET',
-          hasAuthentication: true,
         })
         .then(handleAxiosResult),
   });

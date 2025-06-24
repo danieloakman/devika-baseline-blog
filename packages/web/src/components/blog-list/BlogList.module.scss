@@ -1,0 +1,5 @@
+@use '@baseline/components/styles/global' as g;
+
+.container {
+  @include g.v-stack;
+}
