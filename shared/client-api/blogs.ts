@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getRequestHandler, RequestHandler } from './request-handler';
 import { Blog } from '@baseline/types/blog';
 import { AxiosError, AxiosResponse } from 'axios';
+import { createQueryKey, hasQueryKeys } from './util';
 
 const handleAxiosResult = <T>(arg: AxiosResponse<T> | AxiosError): T => {
   if ('data' in arg) return arg.data;
@@ -11,7 +12,7 @@ const handleAxiosResult = <T>(arg: AxiosResponse<T> | AxiosError): T => {
 export const useGetBlogs = () => {
   const requestHandler = getRequestHandler();
   return useQuery({
-    queryKey: ['blogs'],
+    queryKey: createQueryKey('get-blogs'),
     queryFn: () =>
       requestHandler
         .request<Blog[]>({
@@ -26,7 +27,7 @@ export const useGetBlogs = () => {
 export const useGetBlog = (blogId: string) => {
   const requestHandler = getRequestHandler();
   return useQuery({
-    queryKey: ['blog', blogId],
+    queryKey: createQueryKey('get-blog', blogId),
     queryFn: () =>
       requestHandler
         .request<Blog>({
@@ -43,7 +44,7 @@ export const useCreateBlog = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['createBlog'],
+    mutationKey: createQueryKey('create-blog'),
     mutationFn: (blog: Omit<Blog, 'id' | 'authorId' | 'publishedAt'>) =>
       requestHandler
         .request<Blog>({
@@ -54,7 +55,7 @@ export const useCreateBlog = () => {
         })
         .then(handleAxiosResult),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+      queryClient.invalidateQueries({ predicate: hasQueryKeys('get-blogs') });
     },
   });
 };
@@ -64,7 +65,7 @@ export const useDeleteBlog = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['deleteBlog'],
+    mutationKey: createQueryKey('delete-blog'),
     mutationFn: (blogId: string) =>
       requestHandler
         .request({
@@ -74,7 +75,9 @@ export const useDeleteBlog = () => {
         })
         .then(handleAxiosResult),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+      queryClient.invalidateQueries({
+        predicate: hasQueryKeys('get-blog', 'get-blogs'),
+      });
     },
   });
 };
@@ -88,7 +91,7 @@ export const useUpdateBlog = (blogId?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['updateBlog'],
+    mutationKey: createQueryKey('update-blog'),
     mutationFn: (blog: UpdateBlogParams) => {
       if (!blogId) throw new Error('Blog ID is required');
       return requestHandler
@@ -101,7 +104,9 @@ export const useUpdateBlog = (blogId?: string) => {
         .then(handleAxiosResult);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+      queryClient.invalidateQueries({
+        predicate: hasQueryKeys('get-blog', 'get-blogs'),
+      });
     },
   });
 };
@@ -111,7 +116,7 @@ export const usePublishBlog = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['publishBlog'],
+    mutationKey: createQueryKey('publish-blog'),
     mutationFn: (blogId: string) =>
       requestHandler
         .request({
@@ -122,7 +127,9 @@ export const usePublishBlog = () => {
         })
         .then(handleAxiosResult),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+      queryClient.invalidateQueries({
+        predicate: hasQueryKeys('get-blog', 'get-blogs'),
+      });
     },
   });
 };
