@@ -128,6 +128,10 @@ function BlogUpdateForm({ blog }: { blog: Blog }) {
           {publishBlog.isPending ? <Spinner size="sm" /> : 'Publish'}
         </Button>
       </div>
+      {updateBlog.isError && <ErrorMessage>{updateBlog.error}</ErrorMessage>}
+      {publishBlog.isError && (
+        <ErrorMessage>{publishBlog.error}</ErrorMessage>
+      )}
     </form>
   );
 }
