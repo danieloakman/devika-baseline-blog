@@ -120,9 +120,8 @@ export const usePublishBlog = () => {
     mutationFn: (blogId: string) =>
       requestHandler
         .request({
-          url: `/blog/${blogId}`,
-          method: 'PATCH',
-          data: { publishedAt: new Date().toISOString() },
+          url: `/blog/${blogId}/publish`,
+          method: 'POST',
           hasAuthentication: true,
         })
         .then(handleAxiosResult),

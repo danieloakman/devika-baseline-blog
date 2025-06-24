@@ -16,9 +16,11 @@ import {
 import MDEditor from '@uiw/react-md-editor';
 import { Info } from 'lucide-react';
 import { ErrorMessage } from '@baseline/components';
+import { useNavigate } from 'react-router-dom';
 
 function BlogCreateForm() {
   const createBlog = useCreateBlog();
+  const navigate = useNavigate();
   const { control, handleSubmit } = useForm<{ title: string; content: string }>(
     {
       defaultValues: {
@@ -27,7 +29,13 @@ function BlogCreateForm() {
       },
     },
   );
-  const onSubmit = handleSubmit((data) => createBlog.mutate(data));
+  const onSubmit = handleSubmit((data) => {
+    createBlog.mutate(data, {
+      onSuccess: () => {
+        navigate('/blogs');
+      },
+    });
+  });
 
   return (
     <form onSubmit={onSubmit} className={styles.container}>
@@ -85,9 +93,7 @@ function BlogCreateForm() {
       <Button type="submit" color="primary">
         Create Blog
       </Button>
-      {createBlog.isError && (
-        <ErrorMessage>{createBlog.error}</ErrorMessage>
-      )}
+      {createBlog.isError && <ErrorMessage>{createBlog.error}</ErrorMessage>}
     </form>
   );
 }

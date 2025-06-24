@@ -1,6 +1,7 @@
 import {
   UpdateBlogParams,
   useGetBlog,
+  usePublishBlog,
   useUpdateBlog,
 } from '@baseline/client-api/blogs';
 import React, { useState } from 'react';
@@ -40,6 +41,7 @@ export function BlogView() {
 
 function BlogUpdateForm({ blog }: { blog: Blog }) {
   const updateBlog = useUpdateBlog(blog.id);
+  const publishBlog = usePublishBlog();
   const {
     control,
     handleSubmit,
@@ -52,7 +54,11 @@ function BlogUpdateForm({ blog }: { blog: Blog }) {
     },
   });
   const onSubmit = handleSubmit((data) => {
-    updateBlog.mutate(data);
+    updateBlog.mutateAsync(data, {
+      onSuccess: (_, vars) => {
+        reset({ ...blog, ...vars });
+      },
+    });
   });
 
   return (
@@ -86,7 +92,7 @@ function BlogUpdateForm({ blog }: { blog: Blog }) {
             message: 'Content of blog post must be less than 10000 characters',
           },
         }}
-        render={({ field, fieldState: { error, invalid } }) => (
+        render={({ field, fieldState: { error } }) => (
           <FormGroup>
             <Label id="content-label" for="content" className={styles.label}>
               Content
@@ -106,11 +112,20 @@ function BlogUpdateForm({ blog }: { blog: Blog }) {
         <Button type="reset" color="danger" disabled={!isDirty}>
           Reset
         </Button>
-        <Button type="submit" color="primary" disabled={!isDirty}>
-          Save
+        <Button
+          type="submit"
+          color="primary"
+          disabled={!isDirty || updateBlog.isPending}
+        >
+          {updateBlog.isPending ? <Spinner size="sm" /> : 'Save'}
         </Button>
-        <Button type="submit" color="success">
-          Publish
+        <Button
+          type="button"
+          color="success"
+          disabled={!!blog.publishedAt || publishBlog.isPending}
+          onClick={() => publishBlog.mutateAsync(blog.id)}
+        >
+          {publishBlog.isPending ? <Spinner size="sm" /> : 'Publish'}
         </Button>
       </div>
     </form>

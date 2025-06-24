@@ -9,6 +9,7 @@ import { isBlogPublished } from '../../middleware/is-blog-published';
 import StatusCodes from 'http-status-codes';
 import * as Conditionals from '../../middleware/conditionals';
 import { isAdminSub } from '../admin/admin.service';
+import { Blog } from '@baseline/types/blog';
 
 // TODO: many errors here have lost info and to fix it would be nice to use a result type or similar
 
@@ -16,12 +17,20 @@ const app = createApp();
 // app.use(isAdmin); // All private endpoints require the user to be an admin
 export const handler = createAuthenticatedHandler(app);
 
+const blogMapper = ({ publishedAt, ...blog }: Blog): Blog => ({
+  ...blog,
+  publishedAt: publishedAt === 'not-published' ? null : publishedAt,
+});
+
 app.get('/blog/:id', [
   Conditionals.or(isAdmin, isBlogPublished),
   async (req: RequestContext, res: Response) =>
     await blogService
       .get(req.params.id)
-      .then((result) => res.json(result))
+      .then((result) => {
+        console.log('result', result);
+        res.json(blogMapper(result));
+      })
       .catch((error) => {
         const message = getErrorMessage(error);
         console.error(`Failed to get blog: ${message}`);
@@ -38,7 +47,7 @@ app.get('/blog', [
     if (isAdmin)
       await blogService
         .getAll()
-        .then((result) => res.json(result))
+        .then((result) => res.json(result.map(blogMapper)))
         .catch((error) => {
           console.log('full error', JSON.stringify(error.stack, null, 2));
           const message = getErrorMessage(error);
@@ -71,29 +80,6 @@ app.patch('/blog/:id', [
             error: 'Failed to update blog',
           });
         });
-  },
-]);
-
-app.patch('/blog/:id/publish', [
-  isAdmin,
-  async (req: RequestContext, res: Response) => {
-    const id = req.params.id;
-    try {
-      const blog = await blogService.get(id);
-      if (blog.publishedAt) {
-        res.status(StatusCodes.BAD_REQUEST).json({
-          error: 'Blog is already published',
-        });
-        return;
-      }
-      await blogService.update({ id, publishedAt: new Date().toISOString() });
-    } catch (error) {
-      const message = getErrorMessage(error);
-      console.error(`Failed to publish blog: ${message}`);
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        error: 'Failed to publish blog',
-      });
-    }
   },
 ]);
 
@@ -139,5 +125,32 @@ app.post('/blog', [
           error: 'Failed to create blog',
         });
       });
+  },
+]);
+
+app.post('/blog/:id/publish', [
+  isAdmin,
+  async (req: RequestContext, res: Response) => {
+    const id = req.params.id;
+    try {
+      const blog = await blogService.get(id);
+      if (blog.publishedAt) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+          error: 'Blog is already published',
+        });
+        return;
+      }
+      const result = await blogService.update({
+        id,
+        publishedAt: new Date().toISOString(),
+      });
+      res.json(blogMapper(result));
+    } catch (error) {
+      const message = getErrorMessage(error);
+      console.error(`Failed to publish blog: ${message}`);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        error: 'Failed to publish blog',
+      });
+    }
   },
 ]);
