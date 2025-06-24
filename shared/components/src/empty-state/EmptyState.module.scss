@@ -1,0 +1,20 @@
+@use '../styles/global' as g;
+
+.container {
+  @include g.v-stack;
+  @include g.center;
+
+  .icon {
+    @include g.center;
+  }
+
+  .title {
+    @include g.mediumFont(normal, bold);
+    text-align: center;
+  }
+
+  .description {
+    @include g.smallFont(normal, normal);
+    text-align: center;
+  }
+}
