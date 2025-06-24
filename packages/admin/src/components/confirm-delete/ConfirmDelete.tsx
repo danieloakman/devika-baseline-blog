@@ -12,15 +12,19 @@ import styles from './ConfirmDelete.module.scss';
 
 interface Props {
   itemName: string;
-  deleteFunction(this: void): Promise<void>;
+  deleteFunction(this: void): Promise<void> | void;
   deleteString?: string;
   buttonProps?: React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   >;
+  children?: React.ReactNode;
 }
 
-const ConfirmDelete = (props: Props): JSX.Element => {
+const ConfirmDelete = ({
+  children = 'Delete',
+  ...props
+}: Props): JSX.Element => {
   const {
     itemName,
     deleteFunction,
@@ -41,7 +45,7 @@ const ConfirmDelete = (props: Props): JSX.Element => {
   return (
     <div className={styles.confirmDelete}>
       <button {...buttonProps} onClick={toggle} className={styles.deleteButton}>
-        Delete
+        {children}
       </button>
       <Modal
         isOpen={isModalOpen}
