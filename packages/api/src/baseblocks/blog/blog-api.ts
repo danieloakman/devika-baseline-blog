@@ -50,23 +50,24 @@ app.get('/blog', [
   async (req: RequestContext, res: Response) => {
     const userSub = req.currentUserSub;
     const isAdmin = await isAdminSub(userSub);
-    if (isAdmin)
-      await blogService
-        .getAll()
-        .then((result) => {
-          res.json(result.map(blogMapper));
-        })
-        .catch((error) => {
-          console.log('full error', JSON.stringify(error.stack, null, 2));
-          const message = getErrorMessage(error);
-          console.error(`Failed to get blogs: ${message}`);
-          res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-            error: 'Failed to get blogs',
-          });
+    await blogService
+      .getAll()
+      .then((result) => {
+        if (isAdmin) res.json(result.map(blogMapper));
+        else
+          res.json(
+            result
+              .filter((blog) => blog.publishedAt && blog.publishedAt !== 'not-published')
+              .map(blogMapper),
+          );
+      })
+      .catch((error) => {
+        console.log('full error', JSON.stringify(error.stack, null, 2));
+        const message = getErrorMessage(error);
+        console.error(`Failed to get blogs: ${message}`);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+          error: 'Failed to get blogs',
         });
-    else
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        error: 'NOT IMPLEMENTED',
       });
   },
 ]);
