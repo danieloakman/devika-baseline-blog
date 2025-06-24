@@ -23,13 +23,17 @@ const blogMapper = ({ publishedAt, ...blog }: Blog): Blog => ({
 });
 
 app.get('/blog/:id', [
-  Conditionals.or(isAdmin, isBlogPublished),
-  async (req: RequestContext, res: Response) =>
+  async (req: RequestContext, res: Response) => {
+    const isAdmin = await isAdminSub(req.currentUserSub);
     await blogService
       .get(req.params.id)
       .then((result) => {
         console.log('result', result);
-        res.json(blogMapper(result));
+        if (!isAdmin && result.publishedAt === 'not-published')
+          res.status(StatusCodes.NOT_FOUND).json({
+            error: 'Blog is not published',
+          });
+        else res.json(blogMapper(result));
       })
       .catch((error) => {
         const message = getErrorMessage(error);
@@ -37,7 +41,8 @@ app.get('/blog/:id', [
         res.status(400).json({
           error: 'Failed to get blog',
         });
-      }),
+      });
+  },
 ]);
 
 app.get('/blog', [
@@ -47,7 +52,10 @@ app.get('/blog', [
     if (isAdmin)
       await blogService
         .getAll()
-        .then((result) => res.json(result.map(blogMapper)))
+        .then((result) => {
+          console.log('result', result);
+          res.json(result.map(blogMapper));
+        })
         .catch((error) => {
           console.log('full error', JSON.stringify(error.stack, null, 2));
           const message = getErrorMessage(error);
