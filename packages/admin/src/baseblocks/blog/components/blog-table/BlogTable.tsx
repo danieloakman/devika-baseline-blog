@@ -1,4 +1,4 @@
-import { useGetBlogs } from '@baseline/client-api/blogs';
+import { useDeleteBlog, useGetBlogs } from '@baseline/client-api/blogs';
 import React, { useState } from 'react';
 import {
   Button,
@@ -10,18 +10,26 @@ import {
   UncontrolledPopover,
 } from 'reactstrap';
 import styles from './BlogTable.module.scss';
-import { EmptyState } from '@baseline/components';
+import { EmptyState, ErrorMessage } from '@baseline/components';
 import { Book, Ellipsis, EllipsisVertical, Trash } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Blog } from '@baseline/types/blog';
 import ConfirmDelete from '@/components/confirm-delete/ConfirmDelete';
 
 export default function BlogTable() {
-  const { data: blogs = [], isSuccess, isLoading, error } = useGetBlogs({
+  const {
+    data: blogs = [],
+    isLoading,
+    error,
+  } = useGetBlogs({
     useAuth: true,
   });
+  const deleteBlog = useDeleteBlog();
 
   const isEmpty = !isLoading && !blogs.length;
+
+  if (error) return <ErrorMessage>{error.message}</ErrorMessage>;
+  if (isLoading) return <Spinner />;
 
   return (
     <div className={styles.container}>
@@ -32,9 +40,7 @@ export default function BlogTable() {
         </Link>
       </div>
 
-      {isLoading ? (
-        <Spinner />
-      ) : isEmpty ? (
+      {isEmpty ? (
         <EmptyState
           title="No blogs found"
           description="Create a blog to get started"
@@ -48,7 +54,8 @@ export default function BlogTable() {
             <thead>
               <tr>
                 <th>Title</th>
-                <th>Author</th>
+                {/* <th>Author</th> */}
+                <th>Published</th>
                 <th>Created At</th>
                 <th>Likes</th>
                 <th>Comments</th>
@@ -61,7 +68,12 @@ export default function BlogTable() {
                   <td>
                     <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
                   </td>
-                  <td>{blog.authorId}</td>
+                  {/* <td>{blog.authorId}</td> */}
+                  <td>
+                    {blog.publishedAt && blog.publishedAt !== 'not-published'
+                      ? 'Yes'
+                      : 'No'}
+                  </td>
                   <td>TODO</td>
                   <td>TODO</td>
                   <td>TODO</td>
@@ -69,7 +81,7 @@ export default function BlogTable() {
                     <ConfirmDelete
                       itemName={blog.title}
                       deleteFunction={() => {
-                        // TODO: delete blog
+                        deleteBlog.mutateAsync(blog.id);
                       }}
                     >
                       <Trash color="red" />
