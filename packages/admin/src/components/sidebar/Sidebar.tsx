@@ -30,7 +30,7 @@ const Sidebar = (): JSX.Element => {
             location.pathname === '/dashboard' ? styles.active : ''
           }`}
         >
-          <Home color="black" />
+          <Home color="orange" />
           <span>Dashboard</span>
         </Link>
         <Link
@@ -39,7 +39,7 @@ const Sidebar = (): JSX.Element => {
             location.pathname === '/blogs' ? styles.active : ''
           }`}
         >
-          <Book color="black" />
+          <Book color="orange" />
           <span>Blogs</span>
         </Link>
 
@@ -53,7 +53,7 @@ const Sidebar = (): JSX.Element => {
             location.pathname === '/admins' ? styles.active : ''
           }`}
         >
-          <Users color="black" />
+          <Users color="orange" />
           <span>Admins</span>
         </Link>
 
@@ -63,7 +63,7 @@ const Sidebar = (): JSX.Element => {
             location.pathname === '/settings' ? styles.active : ''
           }`}
         >
-          <Settings color="black" />
+          <Settings color="orange" />
           <span>Account Settings</span>
         </Link>
       </div>
