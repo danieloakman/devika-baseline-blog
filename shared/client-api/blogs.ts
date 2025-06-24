@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { RequestHandler } from './request-handler';
+import { getRequestHandler, RequestHandler } from './request-handler';
 import { Blog } from '@baseline/types/blog';
 import { AxiosError, AxiosResponse } from 'axios';
 
@@ -8,7 +8,8 @@ const handleAxiosResult = <T>(arg: AxiosResponse<T> | AxiosError): T => {
   throw arg;
 };
 
-export const useGetBlogs = (requestHandler: RequestHandler) => {
+export const useGetBlogs = () => {
+  const requestHandler = getRequestHandler();
   return useQuery({
     queryKey: ['blogs'],
     queryFn: () =>
@@ -22,7 +23,8 @@ export const useGetBlogs = (requestHandler: RequestHandler) => {
   });
 };
 
-export const useGetBlog = (requestHandler: RequestHandler, blogId: string) => {
+export const useGetBlog = (blogId: string) => {
+  const requestHandler = getRequestHandler();
   return useQuery({
     queryKey: ['blog', blogId],
     queryFn: () =>
@@ -36,7 +38,8 @@ export const useGetBlog = (requestHandler: RequestHandler, blogId: string) => {
   });
 };
 
-export const useCreateBlog = (requestHandler: RequestHandler) => {
+export const useCreateBlog = () => {
+  const requestHandler = getRequestHandler();
   const queryClient = useQueryClient();
 
   return useMutation({
