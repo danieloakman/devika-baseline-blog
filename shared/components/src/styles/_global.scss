@@ -79,3 +79,28 @@ $breakSize: $md;
 body {
   font-family: 'Montserrat', sans-serif;
 }
+
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin v-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@mixin h-stack {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
