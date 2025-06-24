@@ -4,6 +4,7 @@ import styles from './BlogList.module.scss';
 import { Spinner, Card, CardTitle, CardBody, CardText } from 'reactstrap';
 import { ErrorMessage } from '@baseline/components';
 import { Blog } from '@baseline/types/blog';
+import Markdown from 'react-markdown'
 
 export default function BlogList() {
   const { data: blogs = [], isLoading, error } = useGetBlogs();
@@ -25,8 +26,10 @@ function BlogCard({ blog }: { blog: Blog }) {
   return (
     <Card className={styles.blogCard}>
       <CardBody>
-        <CardTitle>{blog.title}</CardTitle>
-        <CardText>{blog.content}</CardText>
+        <CardTitle tag="h1">{blog.title}</CardTitle>
+        <CardText>
+          <Markdown>{blog.content}</Markdown>
+        </CardText>
       </CardBody>
     </Card>
   );
