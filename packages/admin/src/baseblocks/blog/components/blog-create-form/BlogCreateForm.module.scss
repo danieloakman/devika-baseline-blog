@@ -1,0 +1,11 @@
+@use '@baseline/components/styles/global' as g;
+
+.container {
+  @include g.v-stack;
+  gap: 16px;
+
+  label {
+    @include g.v-stack;
+    gap: 8px;
+  }
+}

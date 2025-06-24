@@ -25,7 +25,8 @@ import Layout from './components/layout/Layout';
 import Loader from './components/page-content/loader/Loader';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import Blogs from './baseblocks/blog/pages/Blogs';
+import Blogs from '@/baseblocks/blog/pages/Blogs';
+import BlogCreate from '@/baseblocks/blog/pages/BlogCreate';
 
 Amplify.configure({
   Auth: {
@@ -138,6 +139,7 @@ const router = createBrowserRouter([
       },
       { path: '/settings', Component: User, loader: userLoader },
       { path: '/blogs', Component: Blogs },
+      { path: '/blogs/create', Component: BlogCreate },
     ],
   },
 ]);

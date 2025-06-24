@@ -1,12 +1,11 @@
 import React from 'react';
 import { useCreateBlog } from '@baseline/client-api/blogs';
-import { getRequestHandler } from '@baseline/client-api/request-handler';
 import { Controller, useForm } from 'react-hook-form';
 import styles from './BlogCreateForm.module.scss';
 import { Button, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
 
 function BlogCreateForm() {
-  const createBlog = useCreateBlog(getRequestHandler());
+  const createBlog = useCreateBlog();
   const { control, handleSubmit } = useForm<{ title: string; content: string }>(
     {
       defaultValues: {
@@ -15,20 +14,19 @@ function BlogCreateForm() {
       },
     },
   );
-
-  const onSubmit = handleSubmit((data) => {
-    createBlog.mutate(data);
-  });
+  const onSubmit = handleSubmit((data) => createBlog.mutate(data));
 
   return (
-    <form onSubmit={onSubmit} className={styles.form}>
+    <form onSubmit={onSubmit} className={styles.container}>
       <Controller
         name="title"
         control={control}
-        render={({ field }) => (
+        rules={{ required: { value: true, message: 'Title is required' } }}
+        render={({ field, fieldState: { error, invalid } }) => (
           <label>
             <p>Title</p>
-            <Input type="text" placeholder="Title" {...field} />
+            <Input type="text" placeholder="Title" {...field} invalid={invalid} />
+            
           </label>
         )}
       />
@@ -38,7 +36,7 @@ function BlogCreateForm() {
         render={({ field }) => (
           <label>
             <p>Content</p>
-            <Input type="text" placeholder="Content" {...field} />
+            <Input type="textarea" placeholder="Content" {...field} />
           </label>
         )}
       />
