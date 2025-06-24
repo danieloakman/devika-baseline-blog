@@ -2,4 +2,16 @@
 
 .container {
   @include g.v-stack;
+
+  form {
+    @include g.v-stack;
+
+    .action {
+      @include g.h-stack;
+      justify-content: space-between;
+      button {
+        flex: 1;
+      }
+    }
+  }
 }

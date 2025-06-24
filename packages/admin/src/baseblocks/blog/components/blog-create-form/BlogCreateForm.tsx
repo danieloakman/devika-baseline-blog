@@ -59,6 +59,13 @@ function BlogCreateForm() {
       <Controller
         name="content"
         control={control}
+        rules={{
+          required: { value: true, message: 'Content is required' },
+          maxLength: {
+            value: 10000,
+            message: 'Content of blog post must be less than 10000 characters',
+          },
+        }}
         render={({ field, fieldState: { error, invalid } }) => (
           <FormGroup>
             <Label id="content-label" for="content" className={styles.label}>

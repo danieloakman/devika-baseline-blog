@@ -25,6 +25,9 @@ export default function BlogTable() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>Blogs</h1>
+        <Link to="/blogs/create">
+          <Button color="primary">Create Blog</Button>
+        </Link>
       </div>
 
       {isLoading ? (

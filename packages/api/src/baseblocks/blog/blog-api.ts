@@ -10,6 +10,8 @@ import StatusCodes from 'http-status-codes';
 import * as Conditionals from '../../middleware/conditionals';
 import { isAdminSub } from '../admin/admin.service';
 
+// TODO: many errors here have lost info and to fix it would be nice to use a result type or similar
+
 const app = createApp();
 // app.use(isAdmin); // All private endpoints require the user to be an admin
 export const handler = createAuthenticatedHandler(app);
@@ -69,6 +71,29 @@ app.patch('/blog/:id', [
             error: 'Failed to update blog',
           });
         });
+  },
+]);
+
+app.patch('/blog/:id/publish', [
+  isAdmin,
+  async (req: RequestContext, res: Response) => {
+    const id = req.params.id;
+    try {
+      const blog = await blogService.get(id);
+      if (blog.publishedAt) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+          error: 'Blog is already published',
+        });
+        return;
+      }
+      await blogService.update({ id, publishedAt: new Date().toISOString() });
+    } catch (error) {
+      const message = getErrorMessage(error);
+      console.error(`Failed to publish blog: ${message}`);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        error: 'Failed to publish blog',
+      });
+    }
   },
 ]);
 

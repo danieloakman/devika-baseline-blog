@@ -2,4 +2,10 @@
 
 .container {
   @include g.v-stack;
+
+  .header {
+    @include g.h-stack;
+    align-items: center;
+    justify-content: space-between;
+  }
 }

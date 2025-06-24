@@ -66,31 +66,63 @@ export const useDeleteBlog = () => {
   return useMutation({
     mutationKey: ['deleteBlog'],
     mutationFn: (blogId: string) =>
-      requestHandler.request({
-        url: `/blog/${blogId}`,
-        method: 'DELETE',
-        hasAuthentication: true,
-      }).then(handleAxiosResult),
+      requestHandler
+        .request({
+          url: `/blog/${blogId}`,
+          method: 'DELETE',
+          hasAuthentication: true,
+        })
+        .then(handleAxiosResult),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['blogs'] });
     },
   });
 };
 
-export const useUpdateBlog = () => {
+export type UpdateBlogParams = Omit<
+  Partial<Blog>,
+  'id' | 'authorId' | 'publishedAt'
+>;
+export const useUpdateBlog = (blogId?: string) => {
   const requestHandler = getRequestHandler();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['updateBlog'],
-    mutationFn: (blog: Omit<Partial<Blog>, 'authorId'> & { id: string }) => requestHandler.request({
-      url: `/blog/${blog.id}`,
-      method: 'PATCH',
-      data: blog,
-      hasAuthentication: true,
-    }).then(handleAxiosResult),
+    mutationFn: (blog: UpdateBlogParams) => {
+      if (!blogId) throw new Error('Blog ID is required');
+      return requestHandler
+        .request({
+          url: `/blog/${blogId}`,
+          method: 'PATCH',
+          data: blog,
+          hasAuthentication: true,
+        })
+        .then(handleAxiosResult);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['blogs'] });
     },
-  })
-}
+  });
+};
+
+export const usePublishBlog = () => {
+  const requestHandler = getRequestHandler();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['publishBlog'],
+    mutationFn: (blogId: string) =>
+      requestHandler
+        .request({
+          url: `/blog/${blogId}`,
+          method: 'PATCH',
+          data: { publishedAt: new Date().toISOString() },
+          hasAuthentication: true,
+        })
+        .then(handleAxiosResult),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+    },
+  });
+};
