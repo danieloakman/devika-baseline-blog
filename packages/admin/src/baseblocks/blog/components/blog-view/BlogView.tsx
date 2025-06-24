@@ -21,6 +21,7 @@ import styles from './BlogView.module.scss';
 import { Blog } from '@baseline/types/blog';
 import { Controller, useForm } from 'react-hook-form';
 import { Info } from 'lucide-react';
+import { Helmet } from 'react-helmet';
 
 export function BlogView() {
   const { id } = useParams();
@@ -31,7 +32,12 @@ export function BlogView() {
       {isLoading ? (
         <Spinner />
       ) : isSuccess ? (
-        <BlogUpdateForm blog={blog} />
+        <>
+          <Helmet>
+            <title>Blog - {blog.title}</title>
+          </Helmet>
+          <BlogUpdateForm blog={blog} />
+        </>
       ) : (
         <ErrorMessage>{error}</ErrorMessage>
       )}
@@ -129,9 +135,7 @@ function BlogUpdateForm({ blog }: { blog: Blog }) {
         </Button>
       </div>
       {updateBlog.isError && <ErrorMessage>{updateBlog.error}</ErrorMessage>}
-      {publishBlog.isError && (
-        <ErrorMessage>{publishBlog.error}</ErrorMessage>
-      )}
+      {publishBlog.isError && <ErrorMessage>{publishBlog.error}</ErrorMessage>}
     </form>
   );
 }

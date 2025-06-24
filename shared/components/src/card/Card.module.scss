@@ -1,0 +1,24 @@
+.card {
+  // Enhanced card styling
+  border: 1px solid #e1e5e9 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.3s ease !important;
+  background: #ffffff !important;
+  overflow: hidden !important;
+
+  // Hover effects
+  &:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    border-color: #d1d5db !important;
+  }
+
+  .body {
+    padding: 1.5rem !important;
+
+    @media (max-width: 768px) {
+      padding: 1.25rem !important;
+    }
+  }
+}

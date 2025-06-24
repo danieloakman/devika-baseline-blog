@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './DashboardContent.module.scss';
-import { CardButton } from '@baseline/components';
+import CardButton from '@/baseblocks/dashboard/components/card-button/CardButton';
 import { useNavigate } from 'react-router-dom';
 import { Book } from 'lucide-react';
 

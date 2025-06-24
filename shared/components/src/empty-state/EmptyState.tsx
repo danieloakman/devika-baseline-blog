@@ -6,13 +6,14 @@ export declare namespace EmptyState {
     title: string;
     description: string;
     icon: ReactNode;
-    children?: ReactNode
+    children?: ReactNode;
+    className?: string;
   }
 }
 
-export function EmptyState({ title, description, icon, children }: EmptyState.Props) {
+export function EmptyState({ title, description, icon, children, className = '' }: EmptyState.Props) {
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${className}`}>
       <div className={styles.icon}>{icon}</div>
       <span className={styles.title}>{title}</span>
       <span className={styles.description}>{description}</span>

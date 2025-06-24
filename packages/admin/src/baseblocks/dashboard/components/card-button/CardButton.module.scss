@@ -1,0 +1,36 @@
+@use '@baseline/components/styles/global' as g;
+
+.card {
+  @include g.h-stack;
+
+  &:hover {
+    .chevron {
+      color: orange;
+    }
+  }
+
+  .icon {
+    @include g.center;
+    // width: 48px;
+    // height: 48px;
+    // border-radius: 50%;
+    // background-color: #f0f0f0;
+  }
+
+  .content {
+    @include g.v-stack;
+
+    .title {
+      @include g.mediumFont(normal, bold);
+    }
+
+    .description {
+      @include g.smallFont(normal, normal);
+    }
+  }
+
+  .chevron {
+    margin: auto 0 auto auto;
+    transition: color g.$animationSpeed ease-in-out;
+  }
+}
