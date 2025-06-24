@@ -1,16 +1,47 @@
-.container {
-  display: flex;
+@use '../styles/global' as g;
+
+.card {
+  @include g.center;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  padding: 16px;
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  transition: transform 0.2s ease-in-out;
+  padding: 8px;
+  cursor: pointer;
+  transition: transform g.$animationSpeed ease-in-out;
   &:hover {
     transform: scale(1.05);
+
+    .chevron {
+      color: orange;
+    }
+  }
+
+  .body {
+    @include g.h-stack;
+    justify-content: flex-start;
+    width: 100%;
+
+    .icon {
+      @include g.center;
+      // width: 48px;
+      // height: 48px;
+      // border-radius: 50%;
+      // background-color: #f0f0f0;
+    }
+
+    .content {
+      @include g.v-stack;
+
+      .title {
+        @include g.mediumFont(normal, bold);
+      }
+
+      .description {
+        @include g.smallFont(normal, normal);
+      }
+    }
+
+    .chevron {
+      margin: auto 0 auto auto;
+      transition: color g.$animationSpeed ease-in-out;
+    }
   }
 }

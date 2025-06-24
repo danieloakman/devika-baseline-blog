@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './DashboardContent.module.scss';
 import { CardButton } from '@baseline/components';
 import { useNavigate } from 'react-router-dom';
+import { Book } from 'lucide-react';
 
 const DashboardContent = (): JSX.Element => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const DashboardContent = (): JSX.Element => {
           title="Blogs"
           description="Manage blogs"
           onClick={() => navigate('/blogs')}
+          icon={<Book color="orange" size={50} />}
         />
       </div>
     </div>
