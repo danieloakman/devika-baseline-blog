@@ -12,7 +12,7 @@ export default function BlogList() {
       {isLoading ? (
         <Spinner color="primary" />
       ) : error ? (
-        <ErrorMessage>{error}</ErrorMessage>
+        <ErrorMessage>{error.message}</ErrorMessage>
       ) : (
         blogs.map((blog) => <div key={blog.id}>{blog.title}</div>)
       )}

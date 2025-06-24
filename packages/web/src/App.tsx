@@ -2,10 +2,22 @@ import React from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import {
+  createRequestHandler,
+  getRequestHandler,
+} from '@baseline/client-api/request-handler';
+
+async function protectedLoader() {
+  console.debug('protected loader');
+  if (!getRequestHandler()) {
+    console.debug('creating request handler for unauthenticated requests');
+    createRequestHandler();
+  }
+  return null;
+}
 
 const router = createBrowserRouter([
-  { path: '/', element: <Home /> },
+  { path: '/', element: <Home />, loader: protectedLoader },
   // { path: '/about', element: <About /> },
 ]);
 
