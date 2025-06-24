@@ -90,8 +90,8 @@ function BlogCreateForm() {
         )}
       />
 
-      <Button type="submit" color="primary">
-        Create Blog
+      <Button type="submit" color="primary" disabled={createBlog.isPending}>
+        {createBlog.isPending ? 'Creating...' : 'Create Blog'}
       </Button>
       {createBlog.isError && <ErrorMessage>{createBlog.error}</ErrorMessage>}
     </form>
