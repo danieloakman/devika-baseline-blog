@@ -8,7 +8,10 @@ export declare namespace Card {
 
 export function Card({ children, className = '', ...props }: Card.Props) {
   return (
-    <ReactstrapCard className={`${styles.card} ${className}`} {...props}>
+    <ReactstrapCard
+      className={`${styles.card} ${className} ${props.onClick ? styles.clickable : ''}`}
+      {...props}
+    >
       <CardBody className={styles.body}>{children}</CardBody>
     </ReactstrapCard>
   );
