@@ -1,0 +1,5 @@
+@use '../styles/global' as g;
+
+.container {
+  @include g.h-stack;
+}
