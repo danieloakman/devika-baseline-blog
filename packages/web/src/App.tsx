@@ -1,11 +1,12 @@
 import React from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   createRequestHandler,
   getRequestHandler,
 } from '@baseline/client-api/request-handler';
+import Blog from './pages/Blog';
 
 async function protectedLoader() {
   console.debug('protected loader');
@@ -17,8 +18,15 @@ async function protectedLoader() {
 }
 
 const router = createBrowserRouter([
-  { path: '/', element: <Home />, loader: protectedLoader },
-  // { path: '/about', element: <About /> },
+  {
+    id: 'public',
+    Component: Outlet,
+    loader: protectedLoader,
+    children: [
+      { path: '/', Component: Home, index: true },
+      { path: '/blog/:id', Component: Blog },
+    ],
+  },
 ]);
 
 const queryClient = new QueryClient({

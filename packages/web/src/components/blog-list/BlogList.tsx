@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useGetBlogs } from '@baseline/client-api/blogs';
 import styles from './BlogList.module.scss';
 import { Spinner, CardTitle, CardText } from 'reactstrap';
@@ -6,6 +6,7 @@ import { EmptyState, ErrorMessage, Card } from '@baseline/components';
 import { Blog } from '@baseline/types/blog';
 import Markdown from 'react-markdown';
 import { Book } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function BlogList() {
   const { data: blogs = [], isLoading, error } = useGetBlogs();
@@ -19,7 +20,6 @@ export default function BlogList() {
         className={styles.emptyState}
       />
     );
-
   return (
     <div className={styles.container}>
       {isLoading ? (
@@ -34,16 +34,19 @@ export default function BlogList() {
 }
 
 function BlogCard({ blog }: { blog: Blog }) {
+  const navigate = useNavigate();
+  const blogContent = useMemo(() => {
+    return blog.content.length > 100
+      ? blog.content.slice(0, 100) + '...'
+      : blog.content;
+  }, [blog]);
+
   return (
-    // <Card className={styles.blogCard}>
-    //   <CardBody>
-    <Card>
+    <Card onClick={() => navigate(`/blog/${blog.id}`)}>
       <CardTitle tag="h1">{blog.title}</CardTitle>
-      <CardText>
-        <Markdown>{blog.content}</Markdown>
+      <CardText className={styles.blogContent}>
+        <Markdown>{blogContent}</Markdown>
       </CardText>
     </Card>
-    //   </CardBody>
-    // </Card>
   );
 }

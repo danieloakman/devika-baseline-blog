@@ -34,7 +34,7 @@ export function BlogView() {
       ) : isSuccess ? (
         <>
           <Helmet>
-            <title>Blog - {blog.title}</title>
+            <title>{blog.title}</title>
           </Helmet>
           <BlogUpdateForm blog={blog} />
         </>
