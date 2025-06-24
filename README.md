@@ -28,4 +28,7 @@ Send to [hr@devika.com](mailto:hr@devika.com)
 
 ## Dev/deployment
 
-See the [Baseline Readme](./README.baseline.md)
+I use NixOS so that's why there's a [shell.nix](./shell.nix) file here.
+Can be run with `nix-shell`, then `start` to run mprocs with the root npm scripts.
+
+Otherwise, see the [Baseline Readme](./README.baseline.md).
