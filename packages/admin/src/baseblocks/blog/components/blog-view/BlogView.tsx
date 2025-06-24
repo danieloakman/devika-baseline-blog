@@ -25,7 +25,12 @@ import { Helmet } from 'react-helmet';
 
 export function BlogView() {
   const { id } = useParams();
-  const { data: blog, isSuccess, isLoading, error } = useGetBlog(id);
+  const {
+    data: blog,
+    isSuccess,
+    isLoading,
+    error,
+  } = useGetBlog(id, { useAuth: true });
 
   return (
     <div className={styles.container}>

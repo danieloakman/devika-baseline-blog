@@ -9,7 +9,7 @@ const handleAxiosResult = <T>(arg: AxiosResponse<T> | AxiosError): T => {
   throw arg;
 };
 
-export const useGetBlogs = () => {
+export const useGetBlogs = ({ useAuth = false }: { useAuth?: boolean } = {}) => {
   const requestHandler = getRequestHandler();
   return useQuery({
     queryKey: createQueryKey('get-blogs'),
@@ -18,12 +18,16 @@ export const useGetBlogs = () => {
         .request<Blog[]>({
           url: '/blog',
           method: 'GET',
+          hasAuthentication: useAuth,
         })
         .then(handleAxiosResult),
   });
 };
 
-export const useGetBlog = (blogId: string) => {
+export const useGetBlog = (
+  blogId: string,
+  { useAuth = false }: { useAuth?: boolean } = {},
+) => {
   const requestHandler = getRequestHandler();
   return useQuery({
     queryKey: createQueryKey('get-blog', blogId),
@@ -32,6 +36,7 @@ export const useGetBlog = (blogId: string) => {
         .request<Blog>({
           url: `/blog/${blogId}`,
           method: 'GET',
+          hasAuthentication: useAuth,
         })
         .then(handleAxiosResult),
   });

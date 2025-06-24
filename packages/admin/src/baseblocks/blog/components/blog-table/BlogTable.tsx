@@ -17,7 +17,9 @@ import { Blog } from '@baseline/types/blog';
 import ConfirmDelete from '@/components/confirm-delete/ConfirmDelete';
 
 export default function BlogTable() {
-  const { data: blogs = [], isSuccess, isLoading, error } = useGetBlogs();
+  const { data: blogs = [], isSuccess, isLoading, error } = useGetBlogs({
+    useAuth: true,
+  });
 
   const isEmpty = !isLoading && !blogs.length;
 

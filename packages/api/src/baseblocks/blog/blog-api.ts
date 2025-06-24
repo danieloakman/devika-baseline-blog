@@ -24,11 +24,12 @@ const blogMapper = ({ publishedAt, ...blog }: Blog): Blog => ({
 
 app.get('/blog/:id', [
   async (req: RequestContext, res: Response) => {
+    console.log('req.currentUserSub', req.currentUserSub);
     const isAdmin = await isAdminSub(req.currentUserSub);
     await blogService
       .get(req.params.id)
       .then((result) => {
-        console.log('result', result);
+        console.log({ isAdmin, publishedAt: result.publishedAt });
         if (!isAdmin && result.publishedAt === 'not-published')
           res.status(StatusCodes.NOT_FOUND).json({
             error: 'Blog is not published',
@@ -53,7 +54,6 @@ app.get('/blog', [
       await blogService
         .getAll()
         .then((result) => {
-          console.log('result', result);
           res.json(result.map(blogMapper));
         })
         .catch((error) => {
@@ -162,3 +162,5 @@ app.post('/blog/:id/publish', [
     }
   },
 ]);
+
+// app.post('/blog')
