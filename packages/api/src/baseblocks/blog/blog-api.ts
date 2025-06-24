@@ -142,7 +142,7 @@ app.post('/blog/:id/publish', [
     const id = req.params.id;
     try {
       const blog = await blogService.get(id);
-      if (blog.publishedAt) {
+      if (blog.publishedAt && blog.publishedAt !== 'not-published') {
         res.status(StatusCodes.BAD_REQUEST).json({
           error: 'Blog is already published',
         });
