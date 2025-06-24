@@ -12,6 +12,7 @@ pkgs.mkShell ( with pkgs; {
     '')
   ];
   shellHook = ''
+    export AWS_REGION="ap-southeast-2"
     export SHELL=${zsh}/bin/zsh
     exec $SHELL
   '';
