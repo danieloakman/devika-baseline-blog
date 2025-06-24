@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getRequestHandler, RequestHandler } from './request-handler';
+import { getRequestHandler } from './request-handler';
 import { Blog } from '@baseline/types/blog';
 import { AxiosError, AxiosResponse } from 'axios';
 import { createQueryKey, hasQueryKeys } from './util';
