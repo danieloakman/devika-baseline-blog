@@ -31,9 +31,7 @@ app.get('/blog/:id', [
       .then((result) => {
         console.log({ isAdmin, publishedAt: result.publishedAt });
         if (!isAdmin && result.publishedAt === 'not-published')
-          res.status(StatusCodes.NOT_FOUND).json({
-            error: 'Blog is not published',
-          });
+          res.status(StatusCodes.NOT_FOUND)
         else res.json(blogMapper(result));
       })
       .catch((error) => {
