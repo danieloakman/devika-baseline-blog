@@ -13,7 +13,7 @@ We want you to add a Blog content management feature to a full-stack application
 - Must be written in Typescript
 - Must be able to run locally
 
-##Bonus Cases
+## Bonus Cases
 
 - End user can search for Blogs
 - End user can like or comment on Blogs
