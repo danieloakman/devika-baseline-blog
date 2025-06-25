@@ -1,10 +1,41 @@
 Blog:
   handler: src/baseblocks/blog/blog-api.handler
   events:
+    # PUBLIC: GET /blog
+    - http:
+        path: /blog
+        method: get
+        cors:
+          origin: ${self:custom.apiCorsOrigin}
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+          allowCredentials: false
+
+    # PUBLIC: GET /blog/{id}
+    - http:
+        path: /blog/{id}
+        method: get
+        cors:
+          origin: ${self:custom.apiCorsOrigin}
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+          allowCredentials: false
+
+    # PROTECTED: All other blog routes
     - http:
         path: /blog/{any+}
-        method: ANY
-        authorizer: # https://www.serverless.com/framework/docs/providers/aws/events/apigateway#http-endpoints-with-aws_iam-authorizers
+        method: any
+        authorizer:
           type: COGNITO_USER_POOLS
           authorizerId:
             Ref: ApiGatewayAuthorizer
@@ -20,8 +51,8 @@ Blog:
           allowCredentials: false
     - http:
         path: /blog
-        method: ANY
-        authorizer: # https://www.serverless.com/framework/docs/providers/aws/events/apigateway#http-endpoints-with-aws_iam-authorizers
+        method: any
+        authorizer:
           type: COGNITO_USER_POOLS
           authorizerId:
             Ref: ApiGatewayAuthorizer

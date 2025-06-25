@@ -14,8 +14,6 @@ import { Blog } from '@baseline/types/blog';
 // TODO: many errors here have lost info and to fix it would be nice to use a result type or similar
 
 const app = createApp();
-// app.use(isAdmin); // All private endpoints require the user to be an admin
-// TODO: this is making every request attempt to be authenticated. But we have unauth'd endpoints here, so fix this
 export const handler = createAuthenticatedHandler(app);
 
 const blogMapper = ({ publishedAt, ...blog }: Blog): Blog => ({
